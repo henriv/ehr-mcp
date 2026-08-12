@@ -39,7 +39,9 @@ export async function getBuildingData(ehrCode: string): Promise<RawBuildingData>
     throw new EhrUpstreamError(`EHR API ${reason}`);
   }
 
-  if (res.status === 400) {
+  // This upstream returns 400 ({"message":"Building Not Found!"}) for an unknown
+  // code; 404 is treated the same way for robustness / conventional semantics.
+  if (res.status === 400 || res.status === 404) {
     throw new EhrNotFoundError(ehrCode);
   }
   if (!res.ok) {
