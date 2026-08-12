@@ -52,6 +52,14 @@ returns a friendly `EHR koodiga 120896 ehitist ei leitud.` message.
 
 ## Auth
 
+> **Compatibility note:** the **claude.ai web custom-connector** dialog authenticates
+> only via **OAuth** (Client ID + Client Secret) — it has **no field for a static
+> bearer token**. So the bearer token below *cannot* be used from the web connector;
+> to use claude.ai, run the service **authless** (leave `MCP_TOKEN` unset — see
+> [Connect to Claude](#connect-to-claude)). The bearer token still works anywhere a
+> custom header can be sent: **Claude Code** (`--header`), the MCP Inspector, and
+> direct `curl`.
+
 Auth on `POST /mcp` is a **single shared bearer token** — it is a secret string, not
 a hash or a signed token, and there is no issuance, expiry, or user model by design.
 `/healthz` is always open. If `MCP_TOKEN` is **unset/empty**, `/mcp` is open too
@@ -73,7 +81,9 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 2. **Render → your service → Environment → `MCP_TOKEN`.** This is why `render.yaml`
    marks it `sync: false`: the value is entered in the dashboard, never stored in the
    repo.
-3. **The claude.ai custom connector's auth field** (bearer token).
+3. **Wherever you send it as a header** — Claude Code (`--header "Authorization:
+   Bearer ..."`), the MCP Inspector (`--header`), or `curl`. (Not the claude.ai web
+   connector — see the compatibility note above.)
 
 **Rotation:** generate a new value, update it in Render's Environment and in the
 connector, and redeploy. The old token stops working the moment the new value is live
@@ -115,10 +125,16 @@ build` → `node dist/index.js`, health check `/healthz`).
 ## Connect to Claude
 
 **claude.ai (custom connector):** Settings → Connectors → **Add custom connector** →
-URL `https://<service>.onrender.com/mcp`. If `MCP_TOKEN` is set, put the token in the
-connector's bearer-token / auth field (see [Auth](#auth)). Once connected, ask in
-Estonian, e.g. *"Mis hoone on EHR koodiga 101018690?"* — Claude will call
+URL `https://<service>.onrender.com/mcp`. **Leave the OAuth Client ID / Client Secret
+fields empty** — the web connector only supports OAuth, not a static bearer token, so
+the service must be running **authless** (`MCP_TOKEN` unset in Render). Once connected,
+ask in Estonian, e.g. *"Mis hoone on EHR koodiga 101018690?"* — Claude will call
 `ehr_building_data` and answer with the address and key indicators.
+
+> Running authless means anyone with the URL can call the tool. That's low-risk here
+> — it only reads **public, read-only** Ehitisregister data — but it does mean your
+> Render compute is open. If you need it locked down, use Claude Code with the bearer
+> token instead of the web connector.
 
 **Claude Code (CLI):**
 
