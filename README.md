@@ -6,7 +6,10 @@ A small [MCP](https://modelcontextprotocol.io) server (streamable HTTP) that exp
 get back a compact, trimmed answer — address, key technical indicators, usage
 purpose, energy certificate and cadastral units. **Geometry is never returned.**
 
-- **Tool:** `ehr_building_data` — input `ehr_kood` (numeric string).
+- **Tool:** `ehr_building_data` — input `ehr_kood` (numeric string), optional
+  `taielik` (boolean). Default returns a compact <2 KB summary; `taielik: true`
+  returns every field **except geometry** (~6 KB compact). Geometry is never
+  returned in either mode.
 - **Upstream:** `https://livekluster.ehr.ee/api/building/v3/buildingData` (public, no auth).
 - **Output budget:** trimmed result stays well under ~2 KB (≈0.5 KB typical) so it is
   cheap to load into model context. See [docs/upstream.md](docs/upstream.md) for the

@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
-import { trimBuildingData } from "../src/ehr/trim.js";
+import { trimBuildingData, fullBuildingData } from "../src/ehr/trim.js";
 import type { RawBuildingData } from "../src/ehr/types.js";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -62,6 +62,44 @@ describe("trimBuildingData — real fixture", () => {
 
   it("omits energy certificate when the fixture has none", () => {
     expect(trimmed.energiamargis).toBeUndefined();
+  });
+});
+
+describe("fullBuildingData — full dataset minus geometry", () => {
+  const full = fullBuildingData(raw);
+  const json = JSON.stringify(full);
+
+  it("drops only geometry, keeping every other section", () => {
+    expect(full).not.toHaveProperty("ehitiseKujud");
+    expect(json).not.toContain("ehitiseKujud");
+    // sections that trim drops but full keeps:
+    expect(full).toHaveProperty("ehitiseTehnilisedNaitajad");
+    expect(full).toHaveProperty("ehitiseKehand");
+    expect(full).toHaveProperty("ehitisePohiandmed");
+    expect(full).toHaveProperty("ehitiseAndmed");
+  });
+
+  it("is larger than the trimmed view but smaller than the raw (geometry removed)", () => {
+    const rawBytes = Buffer.byteLength(JSON.stringify(raw));
+    const trimBytes = Buffer.byteLength(JSON.stringify(trimBuildingData(raw)));
+    const fullBytes = Buffer.byteLength(json);
+    expect(fullBytes).toBeGreaterThan(trimBytes);
+    expect(fullBytes).toBeLessThan(rawBytes);
+  });
+
+  it("is total: null / empty / missing ehitis never throw", () => {
+    expect(fullBuildingData(null)).toEqual({});
+    expect(fullBuildingData(undefined)).toEqual({});
+    expect(fullBuildingData({})).toEqual({});
+    expect(fullBuildingData({ ehitis: {} })).toEqual({});
+  });
+
+  it("removes geometry even when other sections are present", () => {
+    const out = fullBuildingData({
+      ehitis: { ehitiseKujud: { kuju: [1, 2, 3] }, ehitiseAndmed: { ehrKood: "1" } },
+    });
+    expect(out).not.toHaveProperty("ehitiseKujud");
+    expect(out).toHaveProperty("ehitiseAndmed");
   });
 });
 

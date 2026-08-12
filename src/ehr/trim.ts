@@ -32,6 +32,23 @@ export interface TrimmedBuilding {
   katastriuksused?: string[];
 }
 
+/**
+ * Full dataset minus geometry. Returns a shallow copy of `raw.ehitis` with the
+ * `ehitiseKujud` (geometry / coordinate) section removed — geometry is never
+ * surfaced, per the core token-discipline constraint.
+ *
+ * Total function: null / missing `ehitis` → `{}`; never throws.
+ */
+export function fullBuildingData(
+  raw: RawBuildingData | null | undefined,
+): Record<string, unknown> {
+  const e = raw?.ehitis;
+  if (!e || typeof e !== "object") return {};
+  const { ehitiseKujud: _dropGeometry, ...rest } = e as Record<string, unknown>;
+  void _dropGeometry;
+  return rest;
+}
+
 /** Return the string only if it is a non-empty, non-whitespace string; else undefined. */
 function str(v: unknown): string | undefined {
   if (typeof v !== "string") return undefined;
