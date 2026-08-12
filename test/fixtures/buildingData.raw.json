@@ -1,0 +1,449 @@
+{
+  "ehitis": {
+    "ehitiseKujud": {
+      "ruumikuju": [
+        {
+          "oper": "A",
+          "adobId": "7444188",
+          "adsOid": "ME00638848",
+          "nahtus": "HOONE",
+          "adsLiik": "ME",
+          "ehit_id": "31346995",
+          "ehrKood": "101018690",
+          "kujuJnr": "1",
+          "nimetus": null,
+          "pindala": "972.9",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  542496.64,
+                  6605224.02
+                ],
+                [
+                  542496.7,
+                  6605221.62
+                ],
+                [
+                  542460.25,
+                  6605220.72
+                ],
+                [
+                  542460.6,
+                  6605206.92
+                ],
+                [
+                  542497,
+                  6605207.81
+                ],
+                [
+                  542497.29,
+                  6605196.32
+                ],
+                [
+                  542510.82,
+                  6605196.64
+                ],
+                [
+                  542510.52,
+                  6605207.9
+                ],
+                [
+                  542517.41,
+                  6605208.07
+                ],
+                [
+                  542517.07,
+                  6605221.9
+                ],
+                [
+                  542510.15,
+                  6605221.74
+                ],
+                [
+                  542510.09,
+                  6605224.36
+                ],
+                [
+                  542496.64,
+                  6605224.02
+                ]
+              ]
+            ]
+          },
+          "gis_kood": null,
+          "kuju_liik": null,
+          "nahtusTxt": "hoone",
+          "mkm_joonis": null,
+          "nliik_kood": null,
+          "geometryTxt": "Geomeetria punktid on geomeetria objektis",
+          "lahiaadress": "Tagamaa tee 14",
+          "taisaadress": "Harju maakond, Tallinn, Kesklinna linnaosa, Tagamaa tee 14",
+          "viitepunktX": "542491.73",
+          "viitepunktY": "6605212.81",
+          "date_updated": "2025-11-24T19:34:23.603",
+          "geom_updated": "2017-02-19T02:59:00.000",
+          "geometryType": "Geomeetria tüüp on geomeetria objektis",
+          "ads_esitamine": null,
+          "hoone_kuju_id": "30443344",
+          "tyhistatud_kp": null,
+          "geometryTypeTxt": "Geomeetria tüüp on geomeetria objektis",
+          "sissepaasu_punkt": null,
+          "kujuMoodustusviis": "K",
+          "sissepaasupunktid": {
+            "sissepaasupunkt": []
+          },
+          "ehitiseKujuAadressid": {
+            "aadress": [
+              {
+                "id": "42911681",
+                "olek": "K",
+                "oper": "A",
+                "adrId": "2104571",
+                "tekst": null,
+                "aadr_id": "4382226",
+                "kuju_id": "30443344",
+                "olekTxt": "kehtiv",
+                "tase1_id": "37",
+                "tase2_id": "7287944",
+                "tase3_id": "1603302",
+                "tase4_id": null,
+                "tase5_id": "1607578",
+                "tase6_id": null,
+                "tase7_id": "2328628",
+                "tase8_id": null,
+                "tase1_kood": "37",
+                "tase2_kood": "784",
+                "koodaadress": "377840298000003MN00001ENN00000000",
+                "lahiaadress": "Tagamaa tee 14",
+                "taisaadress": "Harju maakond, Tallinn, Kesklinna linnaosa, Tagamaa tee 14",
+                "tase1_nimetus": "Harju maakond",
+                "tase2_nimetus": "Tallinn",
+                "tase3_nimetus": "Kesklinna linnaosa",
+                "tase4_nimetus": null,
+                "tase5_nimetus": "Tagamaa tee",
+                "tase6_nimetus": null,
+                "tase7_nimetus": "14",
+                "tase8_nimetus": null,
+                "aadressTekstina": null
+              }
+            ]
+          },
+          "kujuMoodustusviisTxt": "kaardistatud"
+        }
+      ]
+    },
+    "ehitiseAndmed": {
+      "url": "URL pole kasutusel",
+      "oper": "A",
+      "adsOid": "ME00638848",
+      "ehitId": "31346995",
+      "ehrKood": "101018690",
+      "nimetus": "puhkemaja",
+      "seisund": "EHITIS_SEISUND_OLEMA",
+      "kaosKood": "12114",
+      "markused": null,
+      "kaosIdTxt": "Sanatooriumi majutushoone, pansionaat, mis ei kuulu haiglate ja muude ravihoonete gruppi",
+      "seisundTxt": "Olemas",
+      "verTekkAeg": "2025-11-24T19:55:39.577",
+      "taisaadress": "Harju maakond, Tallinn, Kesklinna linnaosa, Tagamaa tee 14",
+      "rajatisHoone": "H",
+      "esmaneKasutus": "1925",
+      "kaosIdPeamine": "12114",
+      "katastriyksused": "katastriuksused on eraldi plokis",
+      "rajatishoonetxt": "hoone"
+    },
+    "ehitiseKehand": {
+      "kehand": [
+        {
+          "tekkeviis": "P",
+          "kehandOper": "A",
+          "ehitiseOsad": {
+            "ehitiseOsa": [
+              {
+                "id": "28439989",
+                "liik": "M",
+                "tahis": null,
+                "adsOid": null,
+                "kaosId": "12114",
+                "adob_id": null,
+                "ehrKood": "101018690-3495457",
+                "liikTxt": "Mitteeluruum",
+                "nimetus": "puhkemaja",
+                "osaOper": "A",
+                "spun_id": null,
+                "kaosKood": "12114",
+                "markused": null,
+                "osa_kood": "3495457",
+                "dokumendil": "J",
+                "osaUpdated": "2025-11-24T19:34:23.608",
+                "kaosNimetus": "Sanatooriumi majutushoone, pansionaat, mis ei kuulu haiglate ja muude ravihoonete gruppi",
+                "ads_esitamine": null,
+                "ehitiseOsaPohiandmed": {
+                  "pind": "791.2"
+                },
+                "ehitiseOsaTehnosysteemid": {
+                  "energiaTehnosysteem": [
+                    {
+                      "nimetus": "võrk",
+                      "lisavaartus": null,
+                      "doEhitisOsaId": "28439989",
+                      "energiakandjaId": "2607",
+                      "enTehnosysteemId": "9568791",
+                      "energiaallikaLiikId": "2303",
+                      "energiakandjaNimetus": "elekter",
+                      "energiaallikaLiikKogus": null,
+                      "lisaEnergiaallikaLiikId": null,
+                      "energiaTehnosysteemiLiik": "TEHNO_ELEKLIIK",
+                      "energiaallikaLiikNimetus": "võrk",
+                      "energiaallikaLiikVoimsus": null,
+                      "lisaEnergiaallikaLiikKogus": null,
+                      "lisaEnergiaallikaLiikVoimsus": null
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "hoone_kuju_id": "30443344",
+          "kehandUpdated": "2025-11-24T19:34:23.606",
+          "esmane_kasutus": "1925",
+          "do_ehitis_kehand_id": "13382042"
+        }
+      ]
+    },
+    "ehitiseAadressid": {
+      "aadress": [
+        {
+          "oper": "A",
+          "adrId": "2104571",
+          "olekviit": {
+            "olek": "K",
+            "olekTxt": "kehtiv"
+          },
+          "koodaadress": "377840298000003MN00001ENN00000000",
+          "lahiaadress": "Tagamaa tee 14",
+          "taisaadress": "Harju maakond, Tallinn, Kesklinna linnaosa, Tagamaa tee 14",
+          "aadressTekstina": null
+        }
+      ]
+    },
+    "ehitisePohiandmed": {
+      "lift": "0",
+      "maakond": "37",
+      "kinavald": null,
+      "ehAlustKp": null,
+      "mahtBruto": "3443.0",
+      "oletuslik": "0",
+      "omandiLiik": "EHITIS_OMANDI_LIIK_KINNIS",
+      "omavalitsus": "784",
+      "kavKasutusKp": null,
+      "omandiLiikTxt": "kinnisasi",
+      "vetteEhitatud": null,
+      "ajehKasutalgKp": null,
+      "maxKorrusteArv": "1",
+      "minKorrusteArv": "1",
+      "ajehKasutloppKp": null,
+      "ehitisalunePind": "903.0",
+      "suletud_netopind": "791.2",
+      "soltumatuVallasAsi": null
+    },
+    "ehitiseEnergiamargised": {
+      "energiamargis": []
+    },
+    "ehitiseKatastriyksused": {
+      "ehitiseKatastriyksus": [
+        {
+          "id": "43229037",
+          "olek": "K",
+          "oper": "A",
+          "adob_id": 6632682,
+          "ads_oid": "CU00448280",
+          "kayk_id": "273238",
+          "kontrKp": null,
+          "lahiaadress": "Tagamaa tee 14",
+          "taisaadress": "Harju maakond, Tallinn, Kesklinna linnaosa, Tagamaa tee 14",
+          "katastritunnus": "78401:120:0090",
+          "seostamiseViis": null
+        }
+      ]
+    },
+    "ehitiseKasutusotstarbed": {
+      "kasutusotstarve": [
+        {
+          "oper": "A",
+          "kaosId": "12114",
+          "ehos_id": null,
+          "kaosKood": "12114",
+          "kaosIdTxt": "Sanatooriumi majutushoone, pansionaat, mis ei kuulu haiglate ja muude ravihoonete gruppi",
+          "eluruumidePind": null,
+          "mitteeluruumidePind": "791.2"
+        },
+        {
+          "oper": "A",
+          "kaosId": "12114",
+          "ehos_id": "28439989",
+          "kaosKood": "12114",
+          "kaosIdTxt": "Sanatooriumi majutushoone, pansionaat, mis ei kuulu haiglate ja muude ravihoonete gruppi",
+          "eluruumidePind": null,
+          "mitteeluruumidePind": null
+        }
+      ]
+    },
+    "ehitiseTehnilisedNaitajad": {
+      "tehnilineNaitaja": [
+        {
+          "oper": "A",
+          "jrkNr": "0",
+          "klKood": "KONS_VUND",
+          "tenaId": "103",
+          "nimetus": "madalvundament",
+          "klNimetus": "Vundamendi liik",
+          "eh_tehna_id": null,
+          "lisavaartus": "vundament/20/"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "1",
+          "klKood": "KONS_KKONSTR",
+          "tenaId": "215",
+          "nimetus": "puit",
+          "klNimetus": "Kande- ja jäigastavate konstruktsioonide materjal",
+          "eh_tehna_id": null,
+          "lisavaartus": "kandekonst/70/"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "6",
+          "klKood": "KONS_VLAED",
+          "tenaId": "407",
+          "nimetus": "puit",
+          "klNimetus": "Vahelagede kandva osa materjal",
+          "eh_tehna_id": null,
+          "lisavaartus": "vahelaed/40/"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "4",
+          "klKood": "KONS_VSEIN",
+          "tenaId": "505",
+          "nimetus": "puit",
+          "klNimetus": "Välisseina liik",
+          "eh_tehna_id": null,
+          "lisavaartus": "valissein/40/"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "7",
+          "klKood": "KONS_KATUS",
+          "tenaId": "603",
+          "nimetus": "eterniit",
+          "klNimetus": "Katusekatte materjal",
+          "eh_tehna_id": null,
+          "lisavaartus": "katus_kate/20/"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "3",
+          "klKood": "KONS_VALISV",
+          "tenaId": "707",
+          "nimetus": "puit",
+          "klNimetus": "Välisseina välisviimistluse materjal",
+          "eh_tehna_id": null,
+          "lisavaartus": "valis_viim/60/"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "20",
+          "klKood": "TEHNO_VESI",
+          "tenaId": "1107",
+          "nimetus": "lokaalne",
+          "klNimetus": "Veevarustuse liik",
+          "eh_tehna_id": null,
+          "lisavaartus": "kylm_vesi/2"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "30",
+          "klKood": "TEHNO_KANAL",
+          "tenaId": "1407",
+          "nimetus": "lokaalne",
+          "klNimetus": "Kanalisatsiooni liik",
+          "eh_tehna_id": null,
+          "lisavaartus": "kanalisats/2"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "90",
+          "klKood": "TEHNO_GAAS",
+          "tenaId": "1702",
+          "nimetus": "puudub",
+          "klNimetus": "Võrgu- või mahutigaasi olemasolu",
+          "eh_tehna_id": null,
+          "lisavaartus": "gaas/0"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "60",
+          "klKood": "TEHNO_ENERGIA",
+          "tenaId": "2602",
+          "nimetus": "puudub",
+          "klNimetus": "Energiakandja",
+          "eh_tehna_id": null,
+          "lisavaartus": "kytuseliik/0"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "10",
+          "klKood": "TEHNO_ELEKLIIK",
+          "tenaId": "2303",
+          "nimetus": "võrk",
+          "klNimetus": "Elektrisüsteemi liik",
+          "eh_tehna_id": null,
+          "lisavaartus": "elekter/2"
+        },
+        {
+          "oper": "A",
+          "jrkNr": "5",
+          "klKood": "KONS_SARIKAD",
+          "tenaId": "907",
+          "nimetus": "puit",
+          "klNimetus": "Katuste ja katuselagede kandva osa materjal",
+          "eh_tehna_id": null,
+          "lisavaartus": null
+        },
+        {
+          "oper": "A",
+          "jrkNr": "40",
+          "klKood": "TEHNO_SOOJAVLIIK",
+          "tenaId": "2402",
+          "nimetus": "puudub",
+          "klNimetus": "Soojusvarustuse liik",
+          "eh_tehna_id": null,
+          "lisavaartus": null
+        },
+        {
+          "oper": "A",
+          "jrkNr": "50",
+          "klKood": "TEHNO_SOOJUSA",
+          "tenaId": "2502",
+          "nimetus": "puudub",
+          "klNimetus": "Soojusallikas",
+          "eh_tehna_id": null,
+          "lisavaartus": null
+        },
+        {
+          "oper": "I",
+          "jrkNr": null,
+          "klKood": "EHITIS_MALESTIS",
+          "tenaId": "23203",
+          "nimetus": "Ehitis on mälestis",
+          "klNimetus": "Kultuuriväärtus",
+          "eh_tehna_id": null,
+          "lisavaartus": "8708"
+        }
+      ]
+    }
+  }
+}
