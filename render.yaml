@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: ehr-mcp
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/index.js
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: MCP_TOKEN
+        sync: false
+      - key: EHR_BASE_URL
+        value: https://livekluster.ehr.ee/api/building

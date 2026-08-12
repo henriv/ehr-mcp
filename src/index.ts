@@ -2,6 +2,7 @@ import express from "express";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { config } from "./config.js";
 import { buildServer } from "./mcp.js";
+import { requireBearer } from "./auth.js";
 
 const app = express();
 app.use(express.json());
@@ -11,7 +12,7 @@ app.get("/healthz", (_req, res) => {
 });
 
 // Stateless MCP endpoint: a new server + transport per POST, no session store.
-app.post("/mcp", async (req, res) => {
+app.post("/mcp", requireBearer, async (req, res) => {
   const server = buildServer();
   const transport = new StreamableHTTPServerTransport({ sessionIdGenerator: undefined });
 

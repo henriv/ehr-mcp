@@ -50,6 +50,68 @@ returns a friendly `EHR koodiga 120896 ehitist ei leitud.` message.
 > If `MCP_TOKEN` is set, add `--header "Authorization: Bearer <token>"` to the
 > Inspector commands.
 
+## Auth
+
+Auth on `POST /mcp` is a **single shared bearer token** — it is a secret string, not
+a hash or a signed token, and there is no issuance, expiry, or user model by design.
+`/healthz` is always open. If `MCP_TOKEN` is **unset/empty**, `/mcp` is open too
+(local no-auth dev); if it is set, every request must send
+`Authorization: Bearer <token>`. The comparison is constant-time
+(`crypto.timingSafeEqual`, length-checked first so it can't throw).
+
+**Generate the token once:**
+
+```bash
+openssl rand -hex 32
+# or
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+**The same value goes in three places:**
+
+1. **Local `.env`** — `MCP_TOKEN=...` (gitignored, never committed).
+2. **Render → your service → Environment → `MCP_TOKEN`.** This is why `render.yaml`
+   marks it `sync: false`: the value is entered in the dashboard, never stored in the
+   repo.
+3. **The claude.ai custom connector's auth field** (bearer token).
+
+**Rotation:** generate a new value, update it in Render's Environment and in the
+connector, and redeploy. The old token stops working the moment the new value is live
+— there is no grace window or revocation list to manage.
+
+**Verify auth against the deployed service** (replace host + token):
+
+```bash
+# 401 without the header
+curl -s -o /dev/null -w "%{http_code}\n" -X POST https://ehr-mcp.onrender.com/mcp \
+  -H "content-type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+
+# 200 with it
+curl -s -o /dev/null -w "%{http_code}\n" -X POST https://ehr-mcp.onrender.com/mcp \
+  -H "content-type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+## Deploy to Render
+
+The repo includes [`render.yaml`](render.yaml) (a web service: `npm ci && npm run
+build` → `node dist/index.js`, health check `/healthz`).
+
+1. Push this repo to GitHub.
+2. In the Render dashboard: **New → Web Service** (or **Blueprint** to pick up
+   `render.yaml` directly) and connect the GitHub repo.
+3. Set the **`MCP_TOKEN`** environment variable in the dashboard (see [Auth](#auth)).
+   `EHR_BASE_URL` is supplied by `render.yaml`.
+4. Deploy. The service will be at `https://<service>.onrender.com`, with the MCP
+   endpoint at `https://<service>.onrender.com/mcp`.
+
+> **Free-tier cold start:** the free plan spins the service down after ~15 min idle;
+> the next request then waits **~30–50 s** while it wakes. The first Inspector or
+> Claude call after idle may look like a timeout — retry. Render's **Starter** tier
+> keeps the service always-on and removes the cold start.
+
 ## Project layout
 
 ```
