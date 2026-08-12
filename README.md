@@ -112,6 +112,35 @@ build` → `node dist/index.js`, health check `/healthz`).
 > Claude call after idle may look like a timeout — retry. Render's **Starter** tier
 > keeps the service always-on and removes the cold start.
 
+## Connect to Claude
+
+**claude.ai (custom connector):** Settings → Connectors → **Add custom connector** →
+URL `https://<service>.onrender.com/mcp`. If `MCP_TOKEN` is set, put the token in the
+connector's bearer-token / auth field (see [Auth](#auth)). Once connected, ask in
+Estonian, e.g. *"Mis hoone on EHR koodiga 101018690?"* — Claude will call
+`ehr_building_data` and answer with the address and key indicators.
+
+**Claude Code (CLI):**
+
+```bash
+claude mcp add --transport http ehr https://<service>.onrender.com/mcp
+```
+
+If auth is enabled, add the header:
+
+```bash
+claude mcp add --transport http ehr https://<service>.onrender.com/mcp --header "Authorization: Bearer <token>"
+```
+
+## Acceptance checklist
+
+- [x] Inspector `tools/list` returns `ehr_building_data`
+- [x] `tools/call` with a valid EHR code returns trimmed JSON < 2 KB, no `kujud` key
+- [x] Invalid EHR code returns a friendly not-found message
+- [x] Request without bearer token (when `MCP_TOKEN` set) → 401
+- [ ] From claude.ai, *"Mis hoone on EHR koodiga <code>?"* triggers the tool
+      (verify after deploying + connecting)
+
 ## Project layout
 
 ```
