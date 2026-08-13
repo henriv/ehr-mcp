@@ -3,6 +3,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { getBuildingData, EhrNotFoundError, EhrUpstreamError } from "./ehr/client.js";
 import { trimBuildingData, fullBuildingData } from "./ehr/trim.js";
+import { lookupAddress } from "./inads/client.js";
 
 const require = createRequire(import.meta.url);
 const pkg = require("../package.json") as { version: string };
@@ -53,6 +54,30 @@ export function buildServer(): McpServer {
             : "Ehitisregistri päring ebaõnnestus.";
         return { content: [{ type: "text", text: message }], isError: true };
       }
+    },
+  );
+
+  server.registerTool(
+    "address_lookup",
+    {
+      description:
+        "Otsi Eesti aadressi järgi ehitisi. Vabateksti-aadressist tagastab kandidaadid, igaühel katastritunnus ja ehitise EHR kood — koodid saab edasi anda ehr_building_data tööriistale.",
+      inputSchema: {
+        query: z
+          .string()
+          .describe("Vabateksti-aadress, nt \"Tallinn Roseni 7\". Alla 3 tähemärgi -> tühi tulemus."),
+        limit: z
+          .number()
+          .int()
+          .positive()
+          .max(50)
+          .optional()
+          .describe("Max tulemuste arv (vaikimisi 8)."),
+      },
+    },
+    async ({ query, limit }) => {
+      const candidates = await lookupAddress(query, limit ?? 8);
+      return { content: [{ type: "text", text: JSON.stringify(candidates) }] };
     },
   );
 

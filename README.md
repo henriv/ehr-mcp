@@ -6,10 +6,15 @@ A small [MCP](https://modelcontextprotocol.io) server (streamable HTTP) that exp
 get back a compact, trimmed answer — address, key technical indicators, usage
 purpose, energy certificate and cadastral units. **Geometry is never returned.**
 
-- **Tool:** `ehr_building_data` — input `ehr_kood` (numeric string), optional
-  `taielik` (boolean). Default returns a compact <2 KB summary; `taielik: true`
-  returns every field **except geometry** (~6 KB compact). Geometry is never
-  returned in either mode.
+- **Tools:**
+  - `ehr_building_data` — input `ehr_kood` (numeric string), optional `taielik`
+    (boolean). Default returns a compact <2 KB summary; `taielik: true` returns
+    every field **except geometry** (~6 KB compact). Geometry is never returned in
+    either mode.
+  - `address_lookup` — input `query` (free-text address), optional `limit`
+    (default 8). Resolves an address to candidates, each with a
+    `katastritunnus` and building `ehrCode`, via the In-ADS gazetteer. Feed the
+    `ehrCode` into `ehr_building_data`. See [docs/address-lookup.md](docs/address-lookup.md).
 - **Upstream:** `https://livekluster.ehr.ee/api/building/v3/buildingData` (public, no auth).
 - **Output budget:** trimmed result stays well under ~2 KB (≈0.5 KB typical) so it is
   cheap to load into model context. See [docs/upstream.md](docs/upstream.md) for the
@@ -166,11 +171,16 @@ claude mcp add --transport http ehr https://<service>.onrender.com/mcp --header 
 src/
   config.ts        env-derived config (PORT, EHR_BASE_URL, MCP_TOKEN)
   index.ts         Express app: /healthz + stateless POST /mcp
-  mcp.ts           McpServer + ehr_building_data tool
+  mcp.ts           McpServer + ehr_building_data + address_lookup tools
   ehr/
     client.ts      getBuildingData() with timeout + typed errors
-    trim.ts        trimBuildingData() -> <2 KB, drops geometry
+    trim.ts        trimBuildingData() / fullBuildingData(), drops geometry
     types.ts       loose response types
-docs/upstream.md   upstream contract, params, response shape, trim map
-test/              Vitest: trim + client, plus the raw response fixture
+  inads/
+    client.ts      lookupAddress() -> In-ADS gazetteer, validation + shortcut
+    parse.ts       parseCandidates() -> group by adr_id, cadastral + EHR code
+    types.ts       gazetteer row + candidate types
+docs/upstream.md        ehr_building_data upstream contract + trim map
+docs/address-lookup.md  address_lookup upstream contract + parsing
+test/              Vitest: trim, client, address, plus response fixtures
 ```
