@@ -1,0 +1,47 @@
+{
+ "documentId": 8790980,
+ "documentType": 12229,
+ "technicalDocumentType": "12229",
+ "documentTypeWithYear": null,
+ "documentTypeName": "Ehitusluba ehitise laiendamiseks",
+ "documentNumber": "27486",
+ "documentNrFull": "27486",
+ "documentStatus": "DO_DOKUSEIS_REG_KANTUD",
+ "documentVersion": null,
+ "submissionDate": "2007-09-10T21:00:00.000+00:00",
+ "documentGeneratedFile": null,
+ "relatedEntities": "<eemaldatud: isikuandmed>",
+ "fileInfos": null,
+ "applicationLatestComment": null,
+ "applicationComments": [],
+ "relatedDocuments": [
+  {
+   "documentId": 8763692,
+   "documentName": null,
+   "documentType": 11229,
+   "documentTypeWithYear": null,
+   "documentNumber": "27016",
+   "documentNrFull": "27016",
+   "documentStatusCode": "DO_DOKUSEIS_REG_KANTUD",
+   "documentStatusText": "Registrisse kantud",
+   "documentStatusDetail": "DO_DOKUSEIS_REG_KANTUD",
+   "documentRelType": "A",
+   "documentVersion": null,
+   "ehrCode": "120542346",
+   "documentTypeName": "Ehitusloa taotlus ehitise laiendamiseks",
+   "dokKp": "2007-08-15T21:00:00.000+00:00",
+   "fileInfos": null
+  }
+ ],
+ "hasAkMark": false,
+ "documentVersionCreator": "<eemaldatud: isikuandmed>",
+ "notes": "EHITUSLUBA AINULT HOONELE. TEED JA TEHNOVÕRGUD ESITADA ERALDI EHITUSLOA TAOTLEMISEKS.\n\n Ehitise omanik on kohustatud esitama Tallinna Linnaplaneerimise Ameti ehituskontrolli osakonnale vähemalt kolm tööpäeva enne ehitise ehitamise alustamist vormikohase teatise ehitamise alustamise kohta.\n\nEhitusluba ei anna õigust ehitusloale märgitud maaüksuse või ehitise omaniku loata ehitada.\n\nEHITUSTÖÖDE LÄBIVIIMISEL EI TOHI RIKKUDA TEISTELE ISIKUTELE KUULUVAID ASJAÕIGUSI. \n\nEhitusluba kui haldusakti on võimalik vaidlustada Tallinna Halduskohtus (Pärnu mnt 7, Tallinn 15082) 30 päeva jooksul arvates ehitusloa saamiseks esitatud ehitusprojekti kinnitamisest.",
+ "content": null,
+ "prosecutingAuthority": {
+  "id": 4324010,
+  "ehakCode": "784",
+  "registrationName": "Tallinna Linnaplaneerimise Amet",
+  "registrationCode": "75023823",
+  "countyCode": "37"
+ }
+}
