@@ -1,24 +1,46 @@
 # ehr-mcp
 
-A small [MCP](https://modelcontextprotocol.io) server (streamable HTTP) that exposes
-**one** tool backed by the Estonian Building Register (Ehitisregister) endpoint
-`GET /v3/buildingData`. It lets you ask Claude about a building by its EHR code and
-get back a compact, trimmed answer — address, key technical indicators, usage
-purpose, energy certificate and cadastral units. **Geometry is never returned.**
+A small [MCP](https://modelcontextprotocol.io) server (streamable HTTP) over the
+Estonian Building Register (Ehitisregister). It answers, for a building:
+*what is it*, *where is it*, and *does it have a valid permit* — using only the
+**public, unauthenticated** EHR endpoints. **Geometry is never returned.**
 
-- **Tools:**
-  - `ehr_building_data` — input `ehr_kood` (numeric string), optional `taielik`
-    (boolean). Default returns a compact <2 KB summary; `taielik: true` returns
-    every field **except geometry** (~6 KB compact). Geometry is never returned in
-    either mode.
-  - `address_lookup` — input `query` (free-text address), optional `limit`
-    (default 8). Resolves an address to candidates, each with a
-    `katastritunnus` and building `ehrCode`, via the In-ADS gazetteer. Feed the
-    `ehrCode` into `ehr_building_data`. See [docs/address-lookup.md](docs/address-lookup.md).
-- **Upstream:** `https://livekluster.ehr.ee/api/building/v3/buildingData` (public, no auth).
-- **Output budget:** trimmed result stays well under ~2 KB (≈0.5 KB typical) so it is
-  cheap to load into model context. See [docs/upstream.md](docs/upstream.md) for the
-  full contract and trim decisions.
+### Tools
+
+**Building and address**
+
+- `ehr_building_data` — input `ehr_kood` (numeric string), optional `taielik`
+  (boolean). Default returns a compact <2 KB summary; `taielik: true` returns
+  every field **except geometry** (~6 KB compact). Geometry is never returned in
+  either mode.
+- `address_lookup` — input `query` (free-text address), optional `limit`
+  (default 8). Resolves an address to candidates, each with a
+  `katastritunnus` and building `ehrCode`, via the In-ADS gazetteer. Feed the
+  `ehrCode` into `ehr_building_data`. See [docs/address-lookup.md](docs/address-lookup.md).
+
+**Permit and proceeding checks** — see [docs/permits.md](docs/permits.md) for the
+upstream contract, the classification rules and the verified endpoint list.
+
+- `ehr_permit_check` ⭐ — the main tool. One call answers all four permit
+  questions (kasutusluba, kasutusteatis, ehitusluba, ehitusteatis). Each returns a
+  **status**, not a boolean: `olemas` | `puudub` | `kehtetu` | `menetluses`, with
+  the documents that justify it (number, date, state, authority, legal framework).
+- `ehr_document_list` — the low-level building block: the building's public
+  document list, each entry classified and marked with its legal framework.
+- `ehr_proceeding_check` — proceeding states by `ehr_kood` or `document_id`.
+  **Derived** from the public `documentState` field, and says so in every response.
+- `ehr_registry_part_check` — land-register (kinnistusraamat) *registriosa*
+  number. EHR does not hold this field, so the answer is always
+  `registriosa_number: null` plus the cadastral number to continue with at RIK.
+- `ehr_full_check` — all six checks in one answer, by `ehr_kood` or `aadress`.
+
+- **Upstream:** `https://livekluster.ehr.ee` — the `building`, `document` and
+  `classifier` APIs, all public, no auth. Configurable via `EHR_ROOT_URL`
+  (`prelivekluster` / `testkluster` / `devkluster`).
+- **Output budget:** every compact result stays under ~2 KB
+  (`ehr_permit_check` ≈1.5 KB for a 20-document building), so it is cheap to load
+  into model context. `taielik: true` opts into the full data. See
+  [docs/upstream.md](docs/upstream.md) for the `buildingData` trim decisions.
 
 ## Stack
 
@@ -45,8 +67,8 @@ Start the dev server (`npm run dev`), then in another terminal:
 npx @modelcontextprotocol/inspector --cli --transport http --server-url http://localhost:3000/mcp --method tools/list
 ```
 
-Expect one tool, `ehr_building_data`. Then call it with a real EHR code
-(101018690 is the Tallinn sample used in the tests):
+Expect seven tools. Then call one with a real EHR code (101018690 is the Tallinn
+sample used in the tests):
 
 ```bash
 npx @modelcontextprotocol/inspector --cli --transport http --server-url http://localhost:3000/mcp --method tools/call --tool-name ehr_building_data --tool-arg ehr_kood=101018690
@@ -54,6 +76,12 @@ npx @modelcontextprotocol/inspector --cli --transport http --server-url http://l
 
 Expect trimmed JSON (< 2 KB, no `kujud` key). An unknown code such as `120896`
 returns a friendly `EHR koodiga 120896 ehitist ei leitud.` message.
+
+The permit check on Roseni tn 7, Tallinn:
+
+```bash
+npx @modelcontextprotocol/inspector --cli --transport http --server-url http://localhost:3000/mcp --method tools/call --tool-name ehr_permit_check --tool-arg ehr_kood=120542346
+```
 
 > If `MCP_TOKEN` is set, add `--header "Authorization: Bearer <token>"` to the
 > Inspector commands.
@@ -121,7 +149,8 @@ build` → `node dist/index.js`, health check `/healthz`).
 2. In the Render dashboard: **New → Web Service** (or **Blueprint** to pick up
    `render.yaml` directly) and connect the GitHub repo.
 3. Set the **`MCP_TOKEN`** environment variable in the dashboard (see [Auth](#auth)).
-   `EHR_BASE_URL` is supplied by `render.yaml`.
+   `EHR_BASE_URL` is supplied by `render.yaml`; `EHR_ROOT_URL` defaults to the same
+   host and only needs setting to target a non-live cluster.
 4. Deploy. The service will be at `https://<service>.onrender.com`, with the MCP
    endpoint at `https://<service>.onrender.com/mcp`.
 
@@ -156,11 +185,41 @@ If auth is enabled, add the header:
 claude mcp add --transport http ehr https://<service>.onrender.com/mcp --header "Authorization: Bearer <token>"
 ```
 
+## Known limitations
+
+These are properties of the public EHR API, not of this server. They are surfaced
+in the tool output rather than papered over.
+
+1. **Attached document files are closed.** EHR has restricted access to public
+   documents containing personal data. `fileInfos` is often `null` even when the
+   document exists, and some documents answer `401` on their detail view — those
+   are marked `juurdepaas_piiratud: true` rather than dropped.
+2. **You cannot search for a document by its number.** `POST /document/v1/document/search`
+   requires authentication. Publicly, documents are reachable only *through a
+   building*. Searching by permit number needs your own index or an authenticated
+   contract.
+3. **Full proceeding data requires an X-tee/TARA agreement** with the Land and
+   Spatial Agency (Maa- ja Ruumiamet). `/api/proceeding/v1/**` returns `401`.
+   `ehr_proceeding_check` therefore derives the state from the public
+   `documentState` field and labels the result as derived in every response.
+4. **The registriosa number requires a separate RIK integration.** EHR holds no
+   land-register reference — verified absent from `v3/buildingData`, the document
+   detail view and the archive records. `ehr_registry_part_check` returns `null`
+   plus the cadastral number to query the land register with.
+5. **Pre-2003 buildings often carry only a "Hooneregistri ehitise teatis"**
+   (DOTY 91511). That is **not** a kasutusluba. Such buildings get a warning, not a
+   false positive.
+
 ## Acceptance checklist
 
-- [x] Inspector `tools/list` returns `ehr_building_data`
+- [x] Inspector `tools/list` returns all seven tools
 - [x] `tools/call` with a valid EHR code returns trimmed JSON < 2 KB, no `kujud` key
 - [x] Invalid EHR code returns a friendly not-found message
+- [x] `ehr_permit_check` on 120542346 → `ehitusluba: olemas` (12229, 12291),
+      `kasutusluba: olemas` (12329, 12391), applications 11229/11329 not counted as permits
+- [x] `ehr_permit_check` on 101018690 → all four `puudub` + pre-2003 warning
+- [x] `ehr_registry_part_check` never returns a number
+- [x] `ehr_proceeding_check` always marks its answer as derived
 - [x] Request without bearer token (when `MCP_TOKEN` set) → 401
 - [ ] From claude.ai, *"Mis hoone on EHR koodiga <code>?"* triggers the tool
       (verify after deploying + connecting)
@@ -169,18 +228,25 @@ claude mcp add --transport http ehr https://<service>.onrender.com/mcp --header 
 
 ```
 src/
-  config.ts        env-derived config (PORT, EHR_BASE_URL, MCP_TOKEN)
+  config.ts        env-derived config (PORT, EHR_BASE_URL, EHR_ROOT_URL, MCP_TOKEN)
   index.ts         Express app: /healthz + stateless POST /mcp
-  mcp.ts           McpServer + ehr_building_data + address_lookup tools
+  mcp.ts           McpServer + all seven tool registrations
   ehr/
     client.ts      getBuildingData() with timeout + typed errors
     trim.ts        trimBuildingData() / fullBuildingData(), drops geometry
-    types.ts       loose response types
+    types.ts       loose buildingData response types
+    http.ts        fetchJson() timeout + backoff retry, bounded concurrency
+    classifier.ts  DOTY classification by name, 24 h cache, offline fallback
+    documents.ts   document list (15 min cache) + document detail
+    permits.ts     pure status derivation + warnings (no I/O)
+    checks.ts      orchestration for the five check tools
   inads/
     client.ts      lookupAddress() -> In-ADS gazetteer, validation + shortcut
     parse.ts       parseCandidates() -> group by adr_id, cadastral + EHR code
     types.ts       gazetteer row + candidate types
 docs/upstream.md        ehr_building_data upstream contract + trim map
 docs/address-lookup.md  address_lookup upstream contract + parsing
-test/              Vitest: trim, client, address, plus response fixtures
+docs/permits.md         permit-check endpoints, DOTY rules, status derivation
+test/              Vitest: trim, client, address, http, classifier, permits,
+                   checks — plus live-captured response fixtures
 ```
