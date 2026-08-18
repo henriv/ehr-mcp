@@ -53,6 +53,47 @@ test/               vitest specs + live-captured fixtures in test/fixtures/
 Each tool in `mcp.ts` is orchestration only; the actual logic lives in `src/ehr/*`
 and `src/inads/*` so it's directly unit-testable without spinning up the server.
 
+### Request flow
+
+```
+   Claude Code        claude.ai        MCP Inspector
+  (bearer auth)       (authless)          / curl
+        |                  |                  |
+        +------------------+------------------+
+                           |
+                           v   POST /mcp
+              +--------------------------+
+              |  requireBearer (auth.ts)  |
+              |   constant-time compare   |
+              +--------------------------+
+                           |
+                           v
+              +--------------------------+
+              |    McpServer (mcp.ts)     |
+              |  built fresh per request  |
+              |     7 tool handlers       |
+              +--------------------------+
+                           |
+              +------------+-------------+
+              v                          v
+   +--------------------------+   +--------------------------+
+   | src/ehr/*                |   | src/inads/*              |
+   | client, trim,            |   | client, parse            |
+   | classifier, documents,   |   | (address_lookup)         |
+   | permits, checks          |   |                          |
+   +--------------------------+   +--------------------------+
+               |                              |
+               v                              v
+   +--------------------------+   +--------------------------+
+   | livekluster.ehr.ee       |   | In-ADS gazetteer         |
+   | building / document /    |   | (address search)         |
+   | classifier APIs          |   |                          |
+   +--------------------------+   +--------------------------+
+```
+
+No session store — every `POST /mcp` builds a new `McpServer` +
+`StreamableHTTPServerTransport`, handles the one request, and closes both.
+
 ## Conventions
 
 - **Pure/I-O split is deliberate.** `permits.ts`, `trim.ts`, `parse.ts` are pure
