@@ -1,0 +1,177 @@
+[
+ {
+  "id": 1,
+  "name": "Kasutusluba",
+  "name_eng": "User permit",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 122,
+  "name": "Ehitusluba",
+  "name_eng": "Building permit",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 123,
+  "name": "Kasutusluba",
+  "name_eng": "User permit",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 11201,
+  "name": "Ehitusteatis",
+  "name_eng": "Not implemented",
+  "validFrom": "31.03.2016",
+  "validTo": null
+ },
+ {
+  "id": 11202,
+  "name": "Ehitusteatis ehitise püstitamiseks",
+  "name_eng": "For  erection of a building",
+  "validFrom": "01.07.2015",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 11229,
+  "name": "Ehitusloa taotlus ehitise laiendamiseks",
+  "name_eng": "For extension of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2016-03-31 00:00:00.0"
+ },
+ {
+  "id": 11291,
+  "name": "Ehitusloa taotlus ehitise osaliseks lammutamiseks",
+  "name_eng": "For partial demolition of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2016-03-31 00:00:00.0"
+ },
+ {
+  "id": 11301,
+  "name": "Kasutusteatis",
+  "name_eng": "Not implemented",
+  "validFrom": "31.03.2016",
+  "validTo": null
+ },
+ {
+  "id": 11329,
+  "name": "Kasutusloa taotlus ehitise laiendamisel",
+  "name_eng": "Upon extension of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2016-03-31 00:00:00.0"
+ },
+ {
+  "id": 11391,
+  "name": "Kasutusloa taotlus ehitise osalisel lammutamisel",
+  "name_eng": "Upon partial demolition of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2016-03-31 00:00:00.0"
+ },
+ {
+  "id": 11412,
+  "name": "Ehitusloa kehtetuks tunnistamise taotlus",
+  "name_eng": "Application for cancellation of the building permit",
+  "validFrom": "01.10.2002",
+  "validTo": null
+ },
+ {
+  "id": 11413,
+  "name": "Kasutusloa kehtetuks tunnistamise taotlus",
+  "name_eng": "Application for cancellation of the user permit",
+  "validFrom": "01.10.2002",
+  "validTo": null
+ },
+ {
+  "id": 11511,
+  "name": "Ehitise teatis",
+  "name_eng": "Building notice",
+  "validFrom": "01.10.2002",
+  "validTo": "2014-10-01 00:00:00.0"
+ },
+ {
+  "id": 11512,
+  "name": "Ehitamise alustamise teatis",
+  "name_eng": "Notice on the launch of construction",
+  "validFrom": "01.10.2002",
+  "validTo": "2016-03-31 00:00:00.0"
+ },
+ {
+  "id": 11522,
+  "name": "Registri paranduskanne",
+  "name_eng": null,
+  "validFrom": "23.09.2012",
+  "validTo": null
+ },
+ {
+  "id": 11524,
+  "name": "Aadressiandmete muutmiskanne ADS-i infosüsteemist",
+  "name_eng": null,
+  "validFrom": "31.07.2013",
+  "validTo": null
+ },
+ {
+  "id": 12211,
+  "name": "Ehitusluba üksikelamu püstitamiseks",
+  "name_eng": "For erection of a single detached building",
+  "validFrom": "01.10.2002",
+  "validTo": "2014-10-01 00:00:00.0"
+ },
+ {
+  "id": 12229,
+  "name": "Ehitusluba ehitise laiendamiseks",
+  "name_eng": "For extension of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 12291,
+  "name": "Ehitusluba ehitise osaliseks lammutamiseks",
+  "name_eng": "For partial demolition of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 12311,
+  "name": "Kasutusluba üksikelamu püstitamisel",
+  "name_eng": "Upon erection of a single detached building",
+  "validFrom": "01.10.2002",
+  "validTo": "2014-10-01 00:00:00.0"
+ },
+ {
+  "id": 12329,
+  "name": "Kasutusluba ehitise laiendamisel",
+  "name_eng": "Upon extension of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 12391,
+  "name": "Kasutusluba ehitise osalisel lammutamisel",
+  "name_eng": "Upon partial demolition of a building",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 12922,
+  "name": "Ehitusloa kehtetuks tunnistamise otsus",
+  "name_eng": "Resolution on cancellation of the building permit",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 12932,
+  "name": "Kasutusloa kehtetuks tunnistamise otsus",
+  "name_eng": "Resolution on cancellation of the user permit",
+  "validFrom": "01.10.2002",
+  "validTo": "2099-12-31 00:00:00.0"
+ },
+ {
+  "id": 91511,
+  "name": "Hooneregistri ehitise teatis",
+  "name_eng": "Building register's notice on the building",
+  "validFrom": "01.12.2003",
+  "validTo": "2099-12-31 00:00:00.0"
+ }
+]
